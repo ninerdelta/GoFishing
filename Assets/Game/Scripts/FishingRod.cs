@@ -24,18 +24,18 @@ public class FishingRod : MonoBehaviour
   private float reelRadius = 1.5f;
   private float reelCircumference;
 
-  public GameObject TestBlock;
-  public Rigidbody TestRB;
-  public Vector3 testDir = new Vector3(0, 1, 1);
-  [SerializeField]
+  public GameObject LineCastAnchor;
+  private Vector3 anchorStartPosition;
+  private Rigidbody lineCastAnchorRB;
+  public Transform LineCastGuide;
+  private Vector3 guideStartPosition;
+  float lastTestDistance;
+  public Vector3 lastAnchorPosition;
+
+
+  public Vector3 testDir = new Vector3(0, 1, 1);  
   public float testForce = 100.0f;
   public float testDistance;
-  float lastTestDistance;
-  public Transform KinGuide;
-  public Vector3 lastPosition;
-  public Vector3 guideStartPosition;
-  Vector3 anchorStartPosition;
-
   public Animator testMachine; 
 
 
@@ -46,6 +46,7 @@ public class FishingRod : MonoBehaviour
   {
     testMachine = GetComponent<Animator>();    
 
+    // cache components    
     sideToSideGesture = gameObject.GetComponent<SideToSideGesture>();    
     circleInputGesture = gameObject.GetComponent<CircleInputGesture>();
 
@@ -53,17 +54,16 @@ public class FishingRod : MonoBehaviour
     bobberSpring = Bobber.GetComponent<SpringJoint>();
     bobberRb = Bobber.GetComponent<Rigidbody>();
 
-    guideStartPosition = TopOfFishingRod.position;
+    lineCastAnchorRB = LineCastAnchor.GetComponent<Rigidbody>();
+    lineCastAnchorRB.isKinematic = true;
 
     // 2 * pi * r with r = 1.5
     reelCircumference =  2 * Mathf.PI * reelRadius;
     rodPosition = transform.position;
-    
-    TestRB = TestBlock.GetComponent<Rigidbody>();
-    TestRB.isKinematic = true;
 
-    lastPosition = TestRB.position;
-    anchorStartPosition = TestRB.position;
+    guideStartPosition = TopOfFishingRod.position;
+    lastAnchorPosition = lineCastAnchorRB.position;
+    anchorStartPosition = lineCastAnchorRB.position;
 
     LineBobber.PondCollision += OnPondCollision;
     LineBobber.RodCollision += OnBringBack;    
@@ -74,27 +74,19 @@ public class FishingRod : MonoBehaviour
     // align the forward axis of the bobber
     // to the fishing rod
     bobberTransform.LookAt(TopOfFishingRod);
-
-    ReelingUpdate();
-
-
+    bobberTransform.Translate(lineDistance);
 
     // get the change in position of the "throw" anchor
-    Vector3 heyo = TestRB.position;
-    Vector3 deltaPosition = heyo - lastPosition;
-    lastPosition = heyo;
+    Vector3 currentAnchorPosition = lineCastAnchorRB.position;
+    Vector3 deltaAnchorPosition = currentAnchorPosition - lastAnchorPosition;
+    lastAnchorPosition = currentAnchorPosition;
 
     // get the distance of the "fishing line"
-    testDistance = (TopOfFishingRod.position - heyo).magnitude;
+    testDistance = (TopOfFishingRod.position - currentAnchorPosition).magnitude;
     float deltaDistance = testDistance - lastTestDistance;
     lastTestDistance = testDistance;
-
-    // float dt = arcLength - lastArcLength;
-    // lastArcLength = arcLength;
-    // lineDistance = new Vector3(0,0,dt);
-    bobberTransform.Translate(lineDistance); 
     
-    KinGuide.Translate(deltaPosition);
+    LineCastGuide.Translate(deltaAnchorPosition);
     bobberSpring.maxDistance -= (lineDistance.z);
   }
 
@@ -102,10 +94,17 @@ public class FishingRod : MonoBehaviour
   {
     CircleInput t = circleInputGesture.GetGestureInput();
     ReelHandle.transform.localRotation = Quaternion.AngleAxis(t.Angle, Vector3.right);
+
+    // TODO: (matt) seems like could be part of separate component
     float arcLength = 1.5f * t.GetAngleInRadians();
     float dt = arcLength - lastArcLength;
     lastArcLength = arcLength;
     lineDistance = new Vector3(0,0,dt);
+  }
+
+  public void CastingUpdate()
+  {
+
   }
 
   void FixedUpdate()
@@ -113,8 +112,8 @@ public class FishingRod : MonoBehaviour
     if (Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.A))
     {
       testMachine.SetBool("isCast", true);
-      TestRB.isKinematic = false;      
-      TestRB.AddForce(testDir * testForce);
+      lineCastAnchorRB.isKinematic = false;      
+      lineCastAnchorRB.AddForce(testDir * testForce);
     }
   }
 
@@ -124,12 +123,12 @@ public class FishingRod : MonoBehaviour
     {      
       bobberSpring.maxDistance = testDistance + 1.0f;
 
-      TestRB.isKinematic = true;
-      TestRB.position = anchorStartPosition;
-      TestRB.rotation = Quaternion.identity;
-      lastPosition = TestRB.position;
+      lineCastAnchorRB.isKinematic = true;
+      lineCastAnchorRB.position = anchorStartPosition;
+      lineCastAnchorRB.rotation = Quaternion.identity;
+      lastAnchorPosition = lineCastAnchorRB.position;
 
-      KinGuide.position = guideStartPosition;
+      LineCastGuide.position = guideStartPosition;
       inPond = true;
     }   
   }

@@ -648,12 +648,11 @@ MonoBehaviour:
   BringBack: {fileID: 67547054}
   lineDistance: {x: 0, y: 0, z: 0}
   lastArcLength: 0
-  TestBlock: {fileID: 1882165080}
-  TestRB: {fileID: 1882165081}
+  LineCastAnchor: {fileID: 1882165080}
   testDir: {x: 0, y: 2, z: 1}
   testForce: 271.2
   testDistance: 0
-  KinGuide: {fileID: 910399628}
+  LineCastGuide: {fileID: 910399628}
   lastPosition: {x: 0, y: 0, z: 0}
   guideStartPosition: {x: 0, y: 0, z: 0}
   testMachine: {fileID: 0}
@@ -1047,7 +1046,7 @@ GameObject:
   - component: {fileID: 910399625}
   - component: {fileID: 910399624}
   m_Layer: 0
-  m_Name: KinematicGuide
+  m_Name: LineCastGuide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2530,7 +2529,7 @@ GameObject:
   - component: {fileID: 1882165082}
   - component: {fileID: 1882165081}
   m_Layer: 0
-  m_Name: Guide
+  m_Name: LineCastAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

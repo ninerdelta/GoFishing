@@ -23,14 +23,13 @@ namespace Framework.Controls
   }
 
   // TODO: (matt) when is a good time to reset the angle?
-
   public class CircleInputGesture : MonoBehaviour
   {
     private Vector2 currentInput;
     private Vector2 startInput;
     // create virtual center point to measure
     // rotations around
-    private readonly Vector2 gestureCenterOffset = new Vector2(0.0f, 25.0f);
+    private readonly Vector2 gestureCenterOffset = new Vector2(0.0f, 5.0f);
     private Vector2 gestureCenter;
     private Vector2 gestureStart;
     private Vector2 currentGesture;

@@ -71,7 +71,7 @@ public class FishingRod : MonoBehaviour
 
   private void ReelingUpdate()
   {
-    CircleInput t = circleInputGesture.GetGestureInput();
+    CircleInput t = circleInputGesture.GetGestureInput();    
     ReelHandle.transform.localRotation = Quaternion.AngleAxis(t.Angle, Vector3.right);
 
     // TODO: (matt) seems like could be part of separate component

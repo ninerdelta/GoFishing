@@ -6,9 +6,9 @@ namespace Framework.Controls
 {
   public struct CircleInput
   {
-    public int RepCount;
+    public readonly int RepCount;
     // angle is in degrees
-    public float Angle;    
+    public readonly float Angle;
     
     public CircleInput(int reps, float angle)
     {

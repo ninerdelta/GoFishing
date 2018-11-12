@@ -4,15 +4,15 @@ using UnityEngine;
 
 using Framework;
 
-public class WaterCollisionTarget : CollisionTarget
+public class FishingRodCollisionTarget : CollisionTarget
 {
 	public override bool TestCollision(GameObject obj)
 	{
-		if(obj.transform.parent.transform.name == TargetName)
+		if(obj.name == TargetName)
 		{
 			return true;
 		}
 
 		return false;
-	}  
+	}
 }

@@ -399,10 +399,10 @@ MonoBehaviour:
     type: 2}
   CornerElement: {fileID: 1266460107535822, guid: 686eca2827fb2e04db9b54d8292f8c8d,
     type: 2}
-  WaterElement: {fileID: 1389866269645094, guid: 52e2d63e465e9f042963e2a1f48bf2b6,
+  WaterElement: {fileID: 1924507786584008, guid: 52e2d63e465e9f042963e2a1f48bf2b6,
     type: 2}
-  PondWidth: 6
-  PondHeight: 7
+  PondWidth: 40
+  PondHeight: 40
 --- !u!1 &995117049
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,6 +553,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1652318661}
+  - component: {fileID: 1652318662}
   m_Layer: 0
   m_Name: WaterParent
   m_TagString: Untagged
@@ -573,3 +574,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1652318662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1652318660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c844c5a6be154d44be53ebf325cd66f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetName: WaterParent

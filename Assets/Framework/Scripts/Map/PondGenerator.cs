@@ -34,7 +34,7 @@ public class PondGenerator : MonoBehaviour
 		waterParent = GameObject.Find("WaterParent");
 		if(waterParent == null)
 		{
-			print("Water parent missing from sceen");
+			print("Water parent missing from scene");
 			return;
 		}
 

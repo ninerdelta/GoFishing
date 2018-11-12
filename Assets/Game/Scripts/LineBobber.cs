@@ -7,27 +7,40 @@ using UnityEngine;
 
 public class LineBobber : MonoBehaviour
 {
+	private WaterCollisionTarget waterTarget;
+	private FishingRodCollisionTarget fishingRodTarget;
+
 	public static event Action PondCollision = () => {};
-	public static event Action RodCollision = () => {};
+	public static event Action RodCollision = () => {};	
 
 	void Start()
 	{
-		
+		var obj = GameObject.Find("WaterParent");
+		if(obj == null)
+		{
+			print("Water parent missing from scene");
+			return;
+		}
+
+		waterTarget = obj.GetComponent<WaterCollisionTarget>();
+		fishingRodTarget = transform.parent.GetComponentInChildren<FishingRodCollisionTarget>(); 
+		if(fishingRodTarget == null)
+		{
+			print("Fishing rod target not found");
+		}
 	}
 
-  void OnCollisionEnter(Collision collision)
+  void OnCollisionEnter(Collision collision)	
 	{				
-		// fire off event when hits pond
-		// TODO: manage this in a less "implementation aware" way
-		if(collision.gameObject.transform.parent.name == "WaterParent")
+		if(waterTarget.TestCollision(collision.gameObject))
 		{
 			PondCollision();
-		}
+		}		
 	}
 
 	void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.name == "BringBack")
+		if(fishingRodTarget.TestCollision(other.gameObject))
 		{
 			RodCollision();
 		}

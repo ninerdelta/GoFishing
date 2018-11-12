@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CollisionTarget : MonoBehaviour
+namespace Framework
 {
-	public string TargetName;
-	public abstract bool TestCollision(GameObject obj);
+  public abstract class CollisionTarget : MonoBehaviour
+  {
+    public string TargetName;
+    public abstract bool TestCollision(GameObject obj);
+  }
 }

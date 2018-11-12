@@ -3,16 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: (matt) needs a state machine
+// TODO: (matt) use standard C# event pattern
+
 public class LineBobber : MonoBehaviour
 {
 	public static event Action PondCollision = () => {};
 	public static event Action RodCollision = () => {};
 
-  void OnCollisionEnter(Collision collision)
+	void Start()
 	{
-		// fire off event when hits pond		
-		if(collision.gameObject.name == "Pond")
+		
+	}
+
+  void OnCollisionEnter(Collision collision)
+	{				
+		// fire off event when hits pond
+		// TODO: manage this in a less "implementation aware" way
+		if(collision.gameObject.transform.parent.name == "WaterParent")
 		{
 			PondCollision();
 		}

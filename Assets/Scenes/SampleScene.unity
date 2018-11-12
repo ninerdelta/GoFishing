@@ -250,7 +250,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 6.3, y: 14.95, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -265,15 +265,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4906116804730646, guid: 6c35581bf385dec4597fd166d0eb6470, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -5.22
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4906116804730646, guid: 6c35581bf385dec4597fd166d0eb6470, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2.89
+      value: 11.82
       objectReference: {fileID: 0}
     - target: {fileID: 4906116804730646, guid: 6c35581bf385dec4597fd166d0eb6470, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.57
       objectReference: {fileID: 0}
     - target: {fileID: 4906116804730646, guid: 6c35581bf385dec4597fd166d0eb6470, type: 2}
       propertyPath: m_LocalRotation.x
@@ -309,8 +309,9 @@ GameObject:
   - component: {fileID: 981484398}
   - component: {fileID: 981484397}
   - component: {fileID: 981484396}
+  - component: {fileID: 981484400}
   m_Layer: 0
-  m_Name: Pond
+  m_Name: PondGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -377,11 +378,58 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 981484395}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.1935, y: -10.71, z: 27.8}
-  m_LocalScale: {x: 59.76286, y: 3.7324, z: 228.33205}
+  m_LocalPosition: {x: 0, y: -1, z: 75}
+  m_LocalScale: {x: 102, y: 1, z: 230}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &981484400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 981484395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 075b55c9cbcec4a44b01f8576ab105b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WallElement: {fileID: 1420916142409208, guid: dcafd1d0b96775e47bbc4a5ea11d3e64,
+    type: 2}
+  CornerElement: {fileID: 1266460107535822, guid: 686eca2827fb2e04db9b54d8292f8c8d,
+    type: 2}
+  WaterElement: {fileID: 1389866269645094, guid: 52e2d63e465e9f042963e2a1f48bf2b6,
+    type: 2}
+  PondWidth: 6
+  PondHeight: 7
+--- !u!1 &995117049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 995117050}
+  m_Layer: 0
+  m_Name: PondParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &995117050
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 995117049}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1059392738
 GameObject:
@@ -497,3 +545,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebe3a9210819e94468d94a3e79e6b294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1652318660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1652318661}
+  m_Layer: 0
+  m_Name: WaterParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1652318661
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1652318660}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

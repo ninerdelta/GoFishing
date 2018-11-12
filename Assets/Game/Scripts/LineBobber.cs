@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: (matt) update to use standard C# event pattern
-
 public class LineBobber : MonoBehaviour
 {
 	private WaterCollisionTarget waterTarget;
 	private FishingRodCollisionTarget fishingRodTarget;
 
+// TODO: (matt) update to use standard C# event pattern
 	public static event Action PondCollision = () => {};
 	public static event Action PondCollisionExit = () => {};
 	public static event Action RodCollision = () => {};
@@ -29,6 +28,9 @@ public class LineBobber : MonoBehaviour
 		{
 			print("Fishing rod target not found");
 		}
+
+		CatchController.FishCaught += AddCatch;
+		CatchController.FishLanded += RemoveCatch;
 	}
 
   private void OnCollisionEnter(Collision collision)	
@@ -55,9 +57,15 @@ public class LineBobber : MonoBehaviour
 		}
 	}
 
-	public void AddCatch(GameObject obj)
+	private void AddCatch(Fish fish)
 	{
-		obj.transform.SetParent(transform);
-		obj.transform.localPosition = new Vector3(0, 0, -1.0f);
+		fish.Caught.transform.SetParent(transform);
+		fish.Caught.transform.localPosition = new Vector3(0, 0, -1.0f);
+	}
+
+	private void RemoveCatch(Fish fish)
+	{
+		var obj = transform.GetChild(0);
+		Destroy(obj.gameObject);
 	}
 }

@@ -1,6 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public class Fish
+{
+	public readonly GameObject Caught;
+	public readonly int Score;
+	public readonly string Name;
+
+	public Fish(GameObject obj, int score, string name)
+	{
+		Caught = obj;
+		Score = score;
+		Name = name;
+	}
+}
 
 public class CatchController : MonoBehaviour
 {
@@ -17,6 +32,18 @@ public class CatchController : MonoBehaviour
 	// NOTE: (matt) SUPER RIGGED
 	public Material[] FishMaterials = new Material[5];
 
+	// NOTE: (matt) SUPER RIGGED
+  private string[] fishTypeNames = new string[] { "Bluegill", 
+                                                  "Catfish", 
+                                                  "Snapper", 
+                                                  "Snake", 
+                                                  "Tire" };
+
+	private Fish fishOnLine;
+
+	public static event Action<Fish> FishCaught = (Fish caught) => {};
+	public static event Action<Fish> FishLanded = (Fish landed) => {};
+	public static event Action FishMissed = () => {};
   
   void Start()
   {
@@ -29,23 +56,24 @@ public class CatchController : MonoBehaviour
 		LineBobber = GameObject.Find("Bobber").GetComponent<LineBobber>();
 		if(LineBobber == null)
 		{
-			print("Bummer");
+			print("Missing Bobber!");
 		}
   }
 
 	void OnFishBite(int fishIndex, int score)
 	{
 		if(lineInWater && lineCleared)
-		{
-			print("Caught!");
+		{			
 			lineCleared = false;
 			var fish = Instantiate(FishPrototype) as GameObject;
 			fish.GetComponent<MeshRenderer>().material = FishMaterials[fishIndex];
-			LineBobber.AddCatch(fish);			
+			fishOnLine = new Fish(fish, score, fishTypeNames[fishIndex]);
+			FishCaught(fishOnLine);
 		}
 		else
 		{
-			print("MISSED!");
+			print("MISSED");
+			FishMissed();			
 		}
 	}  
 
@@ -58,6 +86,8 @@ public class CatchController : MonoBehaviour
 	{
     if (!lineCleared)
     {
+			FishLanded(fishOnLine);
+			fishOnLine = null;
       lineCleared = !lineCleared;
     }
   }

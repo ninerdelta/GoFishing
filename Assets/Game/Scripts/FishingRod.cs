@@ -14,7 +14,7 @@ public class FishingRod : MonoBehaviour
   public GameObject Bobber;
   private Transform bobberTransform;  
   private SpringJoint bobberSpring;  
-  public Transform TopOfFishingRod;  
+  public Transform TopOfFishingRod;
 
   private Vector3 lineDistance;
   private float lastArcLength;

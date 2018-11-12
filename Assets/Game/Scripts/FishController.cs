@@ -21,13 +21,7 @@ public class FishController : MonoBehaviour
   // NOTE: (matt) just use a rigged value for now,
   // 9 being the number of "nearest neighboring" blocks
 	private int numberOfFish = 9;
-
-  // NOTE: (matt) ad hoc
-  private string[] fishTypeNames = new string[] { "Bluegill", 
-                                                 "Catfish", 
-                                                 "Snapper", 
-                                                 "Snake", 
-                                                 "Tire" };
+  
   private int[] fishTypeScores = new int[] { 5, 7, 13, -3, -10 };
 
   [SerializeField]

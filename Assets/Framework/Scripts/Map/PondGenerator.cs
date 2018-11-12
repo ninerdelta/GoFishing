@@ -13,6 +13,8 @@ public class PondGenerator : MonoBehaviour
 	public GameObject WallElement;
 	public GameObject CornerElement;
 	public GameObject WaterElement;
+
+	// TODO: (matt) make these get set statistically instead of manually
 	public int PondWidth;
 	public int PondHeight;
 	private GameObject pondParent;

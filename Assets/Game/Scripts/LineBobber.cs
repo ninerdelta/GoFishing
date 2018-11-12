@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: (matt) use standard C# event pattern
+// TODO: (matt) update to use standard C# event pattern
 
 public class LineBobber : MonoBehaviour
 {

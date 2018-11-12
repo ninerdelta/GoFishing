@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,25 +21,49 @@ public class FishController : MonoBehaviour
   // NOTE: (matt) just use a rigged value for now,
   // 9 being the number of "nearest neighboring" blocks
 	private int numberOfFish = 9;
-  // NOTE: (matt) public for debugging visibility
-  public int[] ActiveFishTypes;
-  public int[] ActiveBiteFrequency;  
 
-  // Use this for initialization
+  // NOTE: (matt) ad hoc
+  private string[] fishTypeNames = new string[] { "Bluegill", 
+                                                 "Catfish", 
+                                                 "Snapper", 
+                                                 "Snake", 
+                                                 "Tire" };
+  private int[] fishTypeScores = new int[] { 5, 7, 13, -3, -10 };
+
+  [SerializeField]
+  private int[] ActiveFishTypes;
+
+  [SerializeField]
+  private int[] ActiveBiteFrequency;
+
+  [SerializeField]
+  private bool fishActive = false;
+
+  public static event Action<int, int> FishBite = (int fishIndex, int score) => {};
+
   void Start()
-  {
-    GenerateFish();		
+  {    
+    GenerateFish();
+    LineBobber.PondCollision += ToggleFishActive;
+    LineBobber.RodCollision += ToggleFishInActive;
   }
 
-  // Update is called once per frame
   void Update()
   {
-
+    if(fishActive)
+    {
+      CheckForBite();
+    }
   }
 
-  private void CheckForBite()
+  // TODO: (matt) need a minimum wait time that is tunable
+  private IEnumerator CheckForBite()
   {
-    int biteIndex = RandomProbability.Rand(ActiveFishTypes, ActiveBiteFrequency, 9);        
+    float secondsToWait = UnityEngine.Random.Range(1, 15);
+    print("Waiting... " + secondsToWait);
+    yield return new WaitForSeconds(secondsToWait);
+    int biteIndex = RandomProbability.Rand(ActiveFishTypes, ActiveBiteFrequency, 9);    
+    FishBite(biteIndex, fishTypeScores[biteIndex]);
   }
 
   private void GenerateFish()
@@ -56,5 +81,19 @@ public class FishController : MonoBehaviour
       ActiveFishTypes[i] = FishDescription.FishType[fishTypeIndex];      
       ActiveBiteFrequency[i] = FishDescription.BiteFrequency[fishTypeIndex];
     }    
+  }
+
+  private void ToggleFishActive()
+  {
+    if (!fishActive)
+    {
+      fishActive = true;
+      StartCoroutine(CheckForBite());
+    }    
+  }
+
+  private void ToggleFishInActive()
+  {
+    fishActive = false;
   }
 }

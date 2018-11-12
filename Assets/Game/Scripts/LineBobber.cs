@@ -11,7 +11,8 @@ public class LineBobber : MonoBehaviour
 	private FishingRodCollisionTarget fishingRodTarget;
 
 	public static event Action PondCollision = () => {};
-	public static event Action RodCollision = () => {};	
+	public static event Action PondCollisionExit = () => {};
+	public static event Action RodCollision = () => {};
 
 	void Start()
 	{
@@ -30,7 +31,7 @@ public class LineBobber : MonoBehaviour
 		}
 	}
 
-  void OnCollisionEnter(Collision collision)	
+  private void OnCollisionEnter(Collision collision)	
 	{				
 		if(waterTarget.TestCollision(collision.gameObject))
 		{
@@ -38,11 +39,25 @@ public class LineBobber : MonoBehaviour
 		}		
 	}
 
-	void OnTriggerEnter(Collider other)
+	private void OnCollisionExit(Collision collision)
+	{
+    if (waterTarget.TestCollision(collision.gameObject))
+    {
+      PondCollisionExit();
+    }
+  }
+
+	private void OnTriggerEnter(Collider other)
 	{
 		if(fishingRodTarget.TestCollision(other.gameObject))
 		{
-			RodCollision();
+			RodCollision();			
 		}
+	}
+
+	public void AddCatch(GameObject obj)
+	{
+		obj.transform.SetParent(transform);
+		obj.transform.localPosition = new Vector3(0, 0, -1.0f);
 	}
 }

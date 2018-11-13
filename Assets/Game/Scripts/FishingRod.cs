@@ -19,7 +19,7 @@ public class FishingRod : MonoBehaviour
   private Vector3 lineDistance;
   private float lastArcLength;
 
-  private float reelRadius = 1.5f;
+  private float reelRadius = 0.05f;
   private float reelCircumference;
 
   public GameObject LineCastAnchor;
@@ -28,14 +28,13 @@ public class FishingRod : MonoBehaviour
   public Transform LineCastGuide;
   private Vector3 guideStartPosition;
   private Vector3 lastAnchorPosition;
-  private float castingLineDistance;
-
-  // TODO: (matt) replace these with AR driven values
-  public Vector3 testDir = new Vector3(0, 1, 1);  
-  public float testForce = 100.0f;
-
-  // TODO: (matt) sign that a state machine is needed
+  private float castingLineDistance;  
+  public Vector3 castDirection;
+  public float castForce = 100.0f;
+  
   private bool inPond = false;
+
+  public UnityEngine.UI.Text Message;
 
   void Start()
   {
@@ -75,7 +74,7 @@ public class FishingRod : MonoBehaviour
     ReelHandle.transform.localRotation = Quaternion.AngleAxis(t.Angle, Vector3.right);
 
     // TODO: (matt) seems like could be part of separate component
-    float arcLength = 1.5f * t.GetAngleInRadians();
+    float arcLength = reelCircumference * t.GetAngleInRadians();
     float dt = arcLength - lastArcLength;
     lastArcLength = arcLength;
     lineDistance = new Vector3(0,0,dt);
@@ -103,12 +102,21 @@ public class FishingRod : MonoBehaviour
 
   void FixedUpdate()
   {
+#if UNITY_ANDROID
+    var deviceInput = -Input.acceleration.y * 1000.0f;
+    if (deviceInput < 200 && Input.deviceOrientation == DeviceOrientation.Portrait && !inPond)
+    {
+      Message.text = deviceInput.ToString();
+      lineCastAnchorRB.isKinematic = false;
+      lineCastAnchorRB.AddForce(castDirection * castForce);
+    }
+#else
     if (Input.GetMouseButtonDown(0) && Input.GetKey(KeyCode.A) && !inPond)
     {
-      // testMachine.SetBool("isCast", true);
       lineCastAnchorRB.isKinematic = false;      
-      lineCastAnchorRB.AddForce(testDir * testForce);
+      lineCastAnchorRB.AddForce(castDirection * castForce);
     }
+#endif
   }
 
   void OnPondCollision()

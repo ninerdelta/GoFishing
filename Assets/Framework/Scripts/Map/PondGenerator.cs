@@ -17,6 +17,9 @@ public class PondGenerator : MonoBehaviour
 	// TODO: (matt) make these get set statistically instead of manually
 	public int PondWidth;
 	public int PondHeight;
+
+	[SerializeField]
+	private float pondDistance = 1.0f;	
 	private GameObject pondParent;
 	private GameObject waterParent;
 
@@ -39,7 +42,13 @@ public class PondGenerator : MonoBehaviour
 			print("Water parent missing from scene");
 			return;
 		}
+		
+		pondDistance = PondHeight/2.0f;
+		OnPlanePlaced(new Vector3(0, 0, PondHeight));
+	}
 
+	private void OnPlanePlaced(Vector3 position)
+	{
 		StartCoroutine(CreatePond());
 		StartCoroutine(CreateWater());
 	}
@@ -64,9 +73,7 @@ public class PondGenerator : MonoBehaviour
 			{
 				CreatePondElement(WallElement, elementPosition, rotateZero);
 			}
-		}
-
-		yield return null;
+		}		
 
 		// farthest
 		for(int width = 0; width < PondWidth; ++width)
@@ -86,8 +93,6 @@ public class PondGenerator : MonoBehaviour
 			}
 		}
 
-		yield return null;
-
 		// left
 		for(int height = 1; height < PondHeight; ++height)
 		{
@@ -95,14 +100,14 @@ public class PondGenerator : MonoBehaviour
 			CreatePondElement(WallElement, elementPosition, rotateNinety);
 		}
 
-		yield return null;
-
 		// right
 		for(int height = 1; height < PondHeight; ++height)
 		{
 			var elementPosition = new Vector3((PondWidth/2.0f)-1, 0 , height);
 			CreatePondElement(WallElement, elementPosition, rotateNinety * flipDirection);
 		}
+
+		yield return null;
 	}
 
 	private IEnumerator CreateWater()
@@ -112,7 +117,8 @@ public class PondGenerator : MonoBehaviour
 														 rotateZero) as GameObject;
 
 		result.transform.localScale = new Vector3(PondWidth-2, 1, PondHeight-1);
-		result.transform.SetParent(waterParent.transform);
+		result.transform.SetParent(waterParent.transform, false);
+		waterParent.transform.localScale = Vector3.one;
 		
 		yield return null;
 	}
@@ -121,6 +127,7 @@ public class PondGenerator : MonoBehaviour
 	private void CreatePondElement(GameObject element, Vector3 position, Quaternion rotation)
 	{
 		var result = Instantiate(element, position, rotation) as GameObject;
-		result.transform.SetParent(pondParent.transform);
+		result.transform.SetParent(pondParent.transform, false);
+		pondParent.transform.localScale = Vector3.one;
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ResetButton : MonoBehaviour
 {
@@ -13,6 +14,6 @@ public class ResetButton : MonoBehaviour
 
 	void ResetGame()
 	{
-		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 }

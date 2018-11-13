@@ -12,3 +12,9 @@
 * Physics implemented on the line bobber
 
 * Pond generated at runtime 
+
+
+### Post Mortem
+
+* Test on device early, test on device often
+* Reset not quite working correctly -- some values not getting reset

@@ -34,8 +34,6 @@ public class FishingRod : MonoBehaviour
   
   private bool inPond = false;
 
-  public UnityEngine.UI.Text Message;
-
   void Start()
   {
     // testMachine = GetComponent<Animator>();
@@ -104,9 +102,8 @@ public class FishingRod : MonoBehaviour
   {
 #if UNITY_ANDROID
     var deviceInput = -Input.acceleration.y * 1000.0f;
-    if (deviceInput < 200 && Input.deviceOrientation == DeviceOrientation.Portrait && !inPond)
-    {
-      Message.text = deviceInput.ToString();
+    if (deviceInput < 300 && Input.deviceOrientation == DeviceOrientation.Portrait && !inPond)
+    {      
       lineCastAnchorRB.isKinematic = false;
       lineCastAnchorRB.AddForce(castDirection * castForce);
     }
